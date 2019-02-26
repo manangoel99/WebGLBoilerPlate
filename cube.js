@@ -5,10 +5,18 @@ main();
 //
 // Start here
 //
+
+var c;
+var c1;
+
 function main() {
+
+
   const canvas = document.querySelector('#glcanvas');
   const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
 
+  c = new cube(gl, [-1.5, 0.0, -6.0]);
+  c1 = new cube(gl, [1.5, 0.0, -6.0]);
   // If we don't have a GL context, give up now
 
   if (!gl) {
@@ -65,7 +73,7 @@ function main() {
 
   // Here's where we call the routine that builds all the
   // objects we'll be drawing.
-  const buffers = initBuffers(gl);
+  //const buffers
 
   var then = 0;
 
@@ -75,7 +83,7 @@ function main() {
     const deltaTime = now - then;
     then = now;
 
-    drawScene(gl, programInfo, buffers, deltaTime);
+    drawScene(gl, programInfo, deltaTime);
 
     requestAnimationFrame(render);
   }
@@ -83,90 +91,9 @@ function main() {
 }
 
 //
-// initBuffers
-//
-// Initialize the buffers we'll need. For this demo, we just
-// have one object -- a simple three-dimensional cube.
-//
-function initBuffers(gl) {
-
-  // Create a buffer for the cube's vertex positions.
-
-  const positionBuffer = gl.createBuffer();
-
-  // Select the positionBuffer as the one to apply buffer
-  // operations to from here out.
-
-  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-
-  // Now create an array of positions for the cube.
-
-  const positions = [
-    // Front face
-    -1.0, -1.0,  1.0,
-     1.0, -1.0,  1.0,
-     1.0,  1.0,  1.0,
-    -1.0,  1.0,  1.0,
-  ];
-
-  // Now pass the list of positions into WebGL to build the
-  // shape. We do this by creating a Float32Array from the
-  // JavaScript array, then use it to fill the current buffer.
-
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
-
-  // Now set up the colors for the faces. We'll use solid colors
-  // for each face.
-
-  const faceColors = [
-    [1.0,  0.0,  1.0,  1.0],    // Left face: purple
-  ];
-
-  // Convert the array of colors into a table for all the vertices.
-
-  var colors = [];
-
-  for (var j = 0; j < faceColors.length; ++j) {
-    const c = faceColors[j];
-
-    // Repeat each color four times for the four vertices of the face
-    colors = colors.concat(c, c, c, c);
-  }
-
-  const colorBuffer = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
-
-  // Build the element array buffer; this specifies the indices
-  // into the vertex arrays for each face's vertices.
-
-  const indexBuffer = gl.createBuffer();
-  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-
-  // This array defines each face as two triangles, using the
-  // indices into the vertex array to specify each triangle's
-  // position.
-
-  const indices = [
-    0,  1,  2,      0,  2,  3,    // front
-  ];
-
-  // Now send the element array to GL
-
-  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,
-      new Uint16Array(indices), gl.STATIC_DRAW);
-
-  return {
-    position: positionBuffer,
-    color: colorBuffer,
-    indices: indexBuffer,
-  };
-}
-
-//
 // Draw the scene.
 //
-function drawScene(gl, programInfo, buffers, deltaTime) {
+function drawScene(gl, programInfo, deltaTime) {
   gl.clearColor(0.0, 0.0, 0.0, 1.0);  // Clear to black, fully opaque
   gl.clearDepth(1.0);                 // Clear everything
   gl.enable(gl.DEPTH_TEST);           // Enable depth testing
@@ -210,12 +137,13 @@ function drawScene(gl, programInfo, buffers, deltaTime) {
 
   //Write your code to Rotate the cube here//
 
-
+  c.drawCube(gl, projectionMatrix, programInfo, deltaTime);
+  c1.drawCube(gl, projectionMatrix, programInfo, deltaTime);
 
 
   // Tell WebGL how to pull out the positions from the position
   // buffer into the vertexPosition attribute
-  {
+  /*{
     const numComponents = 3;
     const type = gl.FLOAT;
     const normalize = false;
@@ -280,7 +208,7 @@ function drawScene(gl, programInfo, buffers, deltaTime) {
 
   // Update the rotation for the next draw
 
-  cubeRotation += deltaTime;
+  cubeRotation += deltaTime;*/
 }
 
 //
