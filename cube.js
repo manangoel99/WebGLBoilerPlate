@@ -126,15 +126,15 @@ function drawScene(gl, programInfo, deltaTime) {
 
   // Set the drawing position to the "identity" point, which is
   // the center of the scene.
-  const modelViewMatrix = mat4.create();
-
-  // Now move the drawing position a bit to where we want to
-  // start drawing the square.
-
-  mat4.translate(modelViewMatrix,     // destination matrix
-                 modelViewMatrix,     // matrix to translate
-                 [-0.0, 0.0, -6.0]);  // amount to translate
-
+  //const modelViewMatrix = mat4.create();
+//
+  //// Now move the drawing position a bit to where we want to
+  //// start drawing the square.
+//
+  //mat4.translate(modelViewMatrix,     // destination matrix
+  //               modelViewMatrix,     // matrix to translate
+  //               [-0.0, 0.0, -6.0]);  // amount to translate
+//
   //Write your code to Rotate the cube here//
 
   c.drawCube(gl, projectionMatrix, programInfo, deltaTime);

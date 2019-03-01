@@ -11,7 +11,34 @@ let cube = class {
              1.0, -1.0, 1.0,
              1.0, 1.0, 1.0,
              -1.0, 1.0, 1.0,
+             //Back Face
+             -1.0, -1.0, -1.0,
+             1.0, -1.0, -1.0,
+             1.0, 1.0, -1.0,
+             -1.0, 1.0, -1.0,
+             //Top Face
+             -1.0, 1.0, -1.0,
+             1.0, 1.0, -1.0,
+             1.0, 1.0, 1.0,
+             -1.0, 1.0, 1.0,
+             //Bottom Face
+             -1.0, -1.0, -1.0,
+             1.0, -1.0, -1.0,
+             1.0, -1.0, 1.0,
+             -1.0, -1.0, 1.0,
+             //Left Face
+             -1.0, -1.0, -1.0,
+             -1.0, 1.0, -1.0,
+             -1.0, 1.0, 1.0,
+             -1.0, -1.0, 1.0,
+             //Right Face
+             1.0, -1.0, -1.0,
+             1.0, 1.0, -1.0,
+             1.0, 1.0, 1.0,
+             1.0, -1.0, 1.0,
         ];
+
+        this.rotation = 0;
 
         this.pos = pos;
 
@@ -19,9 +46,17 @@ let cube = class {
         
         this.faceColors = [
             [ Math.random(),  Math.random(),  Math.random(),  Math.random()],    // Left face: purple
+            [ Math.random(), Math.random(), Math.random(), Math.random()], // Left face: purple
+            [ Math.random(), Math.random(), Math.random(), Math.random()], // Left face: purple
+            [ Math.random(), Math.random(), Math.random(), Math.random()], // Left face: purple
+            [ Math.random(), Math.random(), Math.random(), Math.random()], // Left face: purple
+            [ Math.random(), Math.random(), Math.random(), Math.random()], // Left face: purple
+
         ];
 
         var colors = [];
+
+
 
         for (var j = 0; j < this.faceColors.length; ++j) {
             const c = this.faceColors[j];
@@ -45,7 +80,12 @@ let cube = class {
         // position.
 
         const indices = [
-            0, 1, 2, 0, 2, 3, // front
+            0, 1, 2,    0, 2, 3, // front
+            4, 5, 6,    4, 6, 7,
+            8, 9, 10,   8, 10, 11,
+            12, 13, 14, 12, 14, 15,
+            16, 17, 18, 16, 18, 19,
+            20, 21, 22, 20, 22, 23, 
         ];
 
         // Now send the element array to GL
@@ -68,6 +108,13 @@ let cube = class {
             modelViewMatrix,
             this.pos
         );
+        
+        this.rotation += Math.PI / (((Math.random()) % 100) + 50);
+
+        mat4.rotate(modelViewMatrix,
+            modelViewMatrix,
+            this.rotation,
+            [1, 1, 1]);
 
         {
             const numComponents = 3;
@@ -126,7 +173,7 @@ let cube = class {
             modelViewMatrix);
 
         {
-            const vertexCount = 6;
+            const vertexCount = 36;
             const type = gl.UNSIGNED_SHORT;
             const offset = 0;
             gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
