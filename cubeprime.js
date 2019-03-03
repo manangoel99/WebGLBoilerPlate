@@ -109,7 +109,7 @@ let cube = class {
             this.pos
         );
         
-        this.rotation += Math.PI / (((Math.random()) % 100) + 50);
+        //this.rotation += Math.PI / (((Math.random()) % 100) + 50);
 
         mat4.rotate(modelViewMatrix,
             modelViewMatrix,
